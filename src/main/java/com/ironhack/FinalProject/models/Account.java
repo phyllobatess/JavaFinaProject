@@ -14,8 +14,8 @@ public  abstract class Account {
     private Long id;
 
     private BigDecimal balance;
-    private AccountHolder primaryOwner;
-    private Optional<AccountHolder> secondaryOwner;
+    private AccountHolders primaryOwner;
+    private Optional<AccountHolders> secondaryOwner;
     private BigDecimal penaltyFee;
 
 
