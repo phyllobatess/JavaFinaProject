@@ -1,4 +1,4 @@
-package com.ironhack.FinalProject.models;
+package com.ironhack.FinalProject.models.Users;
 
 import jakarta.persistence.Embeddable;
 
