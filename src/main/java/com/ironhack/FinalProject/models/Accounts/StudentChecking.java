@@ -1,17 +1,19 @@
 package com.ironhack.FinalProject.models.Accounts;
 
 import com.ironhack.FinalProject.models.Users.AccountHolders;
+import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
+@Entity
 public class StudentChecking extends Account {
     private String secretKey;
     private LocalDate creationDate;
     private Status studentCheckingStatus;
 
-    public StudentChecking(BigDecimal balance, AccountHolders primaryOwner, Optional<AccountHolders> secondaryOwner, BigDecimal penaltyFee, String secretKey, LocalDate creationDate, Status studentCheckingStatus) {
+    public StudentChecking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, LocalDate creationDate, Status studentCheckingStatus) {
         super(balance, primaryOwner, secondaryOwner, penaltyFee);
         this.secretKey = secretKey;
         this.creationDate = creationDate;

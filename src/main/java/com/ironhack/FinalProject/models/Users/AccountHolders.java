@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Entity
 public class AccountHolders extends User {
 
 
@@ -38,13 +39,12 @@ public class AccountHolders extends User {
 
     public AccountHolders(){}
 
-    public AccountHolders(String userName, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress, List<Account> primaryOwnerAccounts, List<Account> secondaryOwnerOwnerAccounts) {
+    public AccountHolders(String userName, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
         super(userName, password, name);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
         this.mailingAddress = mailingAddress;
-        this.primaryOwnerAccounts = primaryOwnerAccounts;
-        this.secondaryOwnerAccounts = secondaryOwnerAccounts;
+
     }
 
     public LocalDate getDateOfBirth() {

@@ -1,5 +1,8 @@
 package com.ironhack.FinalProject.models.Users;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class ThirdParty extends User {
     private String hashKey;
 

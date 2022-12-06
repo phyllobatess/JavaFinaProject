@@ -25,7 +25,11 @@ public  abstract class Account {
     @JoinColumn(name="secondaryOwner_id")
     private AccountHolders secondaryOwner;
 
-    private BigDecimal penaltyFee;
+    private BigDecimal penaltyFee=new BigDecimal("40");
+
+
+
+
 
     //Constructor vacío
     public Account(){}
