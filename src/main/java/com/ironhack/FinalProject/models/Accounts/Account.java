@@ -17,13 +17,17 @@ public  abstract class Account {
 
     private BigDecimal balance;
 
+    //Relaciones con la clase AccountHolder:
+    @ManyToOne
+    @JoinColumn(name="primaryOwner_id")
     private AccountHolders primaryOwner;
-
+    @ManyToOne
+    @JoinColumn(name="secondaryOwner_id")
     private AccountHolders secondaryOwner;
 
     private BigDecimal penaltyFee;
 
-    //Constructor vacio
+    //Constructor vacío
     public Account(){}
 
     //Constructor que no pida el secondary Owner

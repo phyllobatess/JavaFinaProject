@@ -1,11 +1,16 @@
 package com.ironhack.FinalProject.models.Users;
 
-import jakarta.persistence.Embedded;
+import com.ironhack.FinalProject.models.Accounts.Account;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AccountHolders extends User {
+
+
     private LocalDate dateOfBirth;
 
     //Etiqueta para decirle que es una propiedad incrustada
@@ -13,14 +18,33 @@ public class AccountHolders extends User {
     private Address primaryAddress;
 
     @Embedded
-    private Optional<Address> mailingAddress;
+    @AttributeOverrides({
+        @AttributeOverride(name="address",column=@Column(name="mailing_address")),
+        @AttributeOverride(name="postalCode",column=@Column(name="mailing_postal_code")),
+        @AttributeOverride(name="country",column=@Column(name="mailing_country")),
+    })
+    private Address mailingAddress;
+
+    //Relaciones entre la clase USER y ACCOUNT:
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="primaryOwner")
+    private List<Account> primaryOwnerAccounts=new ArrayList<>();
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="secondaryOwner")
+    private List<Account> secondaryOwnerAccounts=new ArrayList<>();
+
+
+
+    //CONSTRUCTORES GETTERS Y SETTERS:
 
     public AccountHolders(){}
-    public AccountHolders(String userName, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Optional<Address> mailingAddress) {
+
+    public AccountHolders(String userName, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress, List<Account> primaryOwnerAccounts, List<Account> secondaryOwnerOwnerAccounts) {
         super(userName, password, name);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
         this.mailingAddress = mailingAddress;
+        this.primaryOwnerAccounts = primaryOwnerAccounts;
+        this.secondaryOwnerAccounts = secondaryOwnerAccounts;
     }
 
     public LocalDate getDateOfBirth() {
@@ -39,11 +63,31 @@ public class AccountHolders extends User {
         this.primaryAddress = primaryAddress;
     }
 
-    public Optional<Address> getMailingAddress() {
+    public Address getMailingAddress() {
         return mailingAddress;
     }
 
-    public void setMailingAddress(Optional<Address> mailingAddress) {
+    public void setMailingAddress(Address mailingAddress) {
         this.mailingAddress = mailingAddress;
     }
+
+
+
+    //Getters y setter de las listas:
+    public List<Account> getPrimaryOwnerAccounts() {
+        return primaryOwnerAccounts;
+    }
+
+    public void setPrimaryOwnerAccounts(List<Account> primaryOwnerAccounts) {
+        this.primaryOwnerAccounts = primaryOwnerAccounts;
+    }
+
+    public List<Account> getSecondaryOwnerAccounts() {
+        return secondaryOwnerAccounts;
+    }
+
+    public void setSecondaryOwnerAccounts(List<Account> secondaryOwnerAccounts) {
+        this.secondaryOwnerAccounts = secondaryOwnerAccounts;
+    }
 }
+

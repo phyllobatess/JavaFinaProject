@@ -21,7 +21,7 @@ public class Savings extends Account {
     public Savings() {
     }
 
-//Constructor que no pide el InterestRate (lo pone por defecto a 0.0025) y Sí pide Minimumbalance:
+    //Constructor que no pida el InterestRate (lo pone por defecto a 0.0025) y Sí pide Minimumbalance:
     public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance, LocalDate creationDate, Status savingsAccountStatus) {
         super(balance, primaryOwner, secondaryOwner, penaltyFee);
         this.secretKey = secretKey;
