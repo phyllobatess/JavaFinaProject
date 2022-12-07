@@ -1,4 +1,4 @@
-package com.ironhack.FinalProject.repositories.Users;
+package com.ironhack.FinalProject.repositories.UserRepositories;
 
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import org.springframework.data.jpa.repository.JpaRepository;

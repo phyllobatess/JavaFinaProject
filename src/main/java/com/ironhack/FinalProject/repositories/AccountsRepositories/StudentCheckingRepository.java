@@ -1,4 +1,4 @@
-package com.ironhack.FinalProject.repositories.Accounts;
+package com.ironhack.FinalProject.repositories.AccountsRepositories;
 
 import com.ironhack.FinalProject.models.Accounts.StudentChecking;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,6 +2,11 @@ package com.ironhack.FinalProject.models.Accounts;
 
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,9 +14,19 @@ import java.time.LocalDate;
 @Entity
 public class Savings extends Account {
     private String secretKey;
-    private BigDecimal minimumBalance;
-    private double interestRate;
+
+    @NotNull
+    @DecimalMin(value = "100", inclusive = true)
+    private BigDecimal minimumBalance=new BigDecimal("1000");
+
+    @NotNull
+    @DecimalMax(value = "0.5", inclusive = true)
+    private double interestRate=0.0025;
+
+    @NotNull
     private LocalDate creationDate;
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Status savingsAccountStatus;
 
     final BigDecimal minBal=new BigDecimal("100");

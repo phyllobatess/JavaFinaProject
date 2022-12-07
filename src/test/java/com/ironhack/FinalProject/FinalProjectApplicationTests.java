@@ -2,13 +2,13 @@ package com.ironhack.FinalProject;
 
 import com.ironhack.FinalProject.models.Accounts.*;
 import com.ironhack.FinalProject.models.Users.*;
-import com.ironhack.FinalProject.repositories.Accounts.CheckingRepository;
-import com.ironhack.FinalProject.repositories.Accounts.CreditCardRepository;
-import com.ironhack.FinalProject.repositories.Accounts.SavingsRepository;
-import com.ironhack.FinalProject.repositories.Accounts.StudentCheckingRepository;
-import com.ironhack.FinalProject.repositories.Users.AccountHoldersRepository;
-import com.ironhack.FinalProject.repositories.Users.AdminsRepository;
-import com.ironhack.FinalProject.repositories.Users.ThirdPartyRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.CheckingRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.CreditCardRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.SavingsRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.StudentCheckingRepository;
+import com.ironhack.FinalProject.repositories.UserRepositories.AccountHoldersRepository;
+import com.ironhack.FinalProject.repositories.UserRepositories.AdminsRepository;
+import com.ironhack.FinalProject.repositories.UserRepositories.ThirdPartyRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,6 +68,11 @@ class CreateObjectsTests {
 	@BeforeEach
 	void setUp(){
 
+		accountHolders1=new AccountHolders("Ramon","123","ram", LocalDate.now(),new Address("Valencia 554",23343,"SP"),new Address("Aragó 43",23333,"SP"));
+		accountHolders2=new AccountHolders("Igor","123","ig", LocalDate.now(),new Address("Valencia 552",23343,"SP"),new Address("Balmes 42",23333,"SP"));
+		accountHoldersRepository.save(accountHolders1);
+		accountHoldersRepository.save(accountHolders2);
+
 		checking1=new Checking(new BigDecimal(232),accountHolders1,accountHolders2,new BigDecimal(2.03),"XXYY",new BigDecimal(23),new BigDecimal(232),LocalDate.now(), Status.ACTIVE);
 		checking2=new Checking(new BigDecimal(232),accountHolders2,accountHolders1,new BigDecimal(2.443),"YYXX",new BigDecimal(23),new BigDecimal(232),LocalDate.now(), Status.FROZEN);
 		checkingRepository.save(checking1);
@@ -89,19 +94,13 @@ class CreateObjectsTests {
 		creditCardRepository.save(creditcard2);
 
 
-		accountHolders1=new AccountHolders("Ramon","123","ram", LocalDate.now(),new Address("Valencia 554",23343,"SP"),new Address("Aragó 43",23333,"SP"));
-		accountHolders2=new AccountHolders("Igor","123","ig", LocalDate.now(),new Address("Valencia 552",23343,"SP"),new Address("Balmes 42",23333,"SP"));
-		accountHoldersRepository.save(accountHolders1);
-		accountHoldersRepository.save(accountHolders2);
-
-
 		admins1=new Admins("Rms","34324df","Ramon");
 		admins2=new Admins("XSA","34324df","Luis");
 		adminsRepository.save(admins1);
 		adminsRepository.save(admins2);
 
-		thirdParty1=new ThirdParty("SSS","dds","ss","###");
-		thirdParty2=new ThirdParty("SSS","dds","ss","###");
+		thirdParty1=new ThirdParty("SSS","dds","ss","#1#");
+		thirdParty2=new ThirdParty("SSS","dds","ss","#2#");
 		thirdPartyRepository.save(thirdParty1);
 		thirdPartyRepository.save(thirdParty2);
 
@@ -155,6 +154,13 @@ class CreateObjectsTests {
 	void shouldCreateThirdParty_OK(){
 		Assertions.assertEquals(2,thirdPartyRepository.findAll().size());
 	}
-	
+
+	@Test void shouldLimitInterestRate(){
+		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,new BigDecimal(2),"AA",0.51,LocalDate.now(),Status.ACTIVE);
+		Assertions.assertEquals(0.0025,savings1.getInterestRate());
+		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,new BigDecimal(2),"AA",-0.2,LocalDate.now(),Status.ACTIVE);
+		Assertions.assertEquals(0.0025,savings1.getInterestRate());
+
+	}
 
 }

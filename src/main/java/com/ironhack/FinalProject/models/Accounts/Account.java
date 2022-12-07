@@ -15,9 +15,11 @@ public  abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal balance;
+    private BigDecimal balance=new BigDecimal("0");
 
     //Relaciones con la clase AccountHolder:
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name="primaryOwner_id")
     private AccountHolders primaryOwner;

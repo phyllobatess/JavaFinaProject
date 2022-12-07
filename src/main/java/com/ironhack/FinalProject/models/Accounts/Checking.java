@@ -2,6 +2,9 @@ package com.ironhack.FinalProject.models.Accounts;
 
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,9 +13,17 @@ import java.util.Optional;
 @Entity
 public class Checking extends Account {
     private String secretKey;
-    private BigDecimal minimumBalance;
-    private BigDecimal monthlyMaintenanceFee;
+    @NotNull
+    private BigDecimal minimumBalance=new BigDecimal("250");
+
+    @NotNull
+    private BigDecimal monthlyMaintenanceFee=new BigDecimal("12");
+
+    @NotNull
     private LocalDate creationDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Status checkingAccountStatus;
 
 

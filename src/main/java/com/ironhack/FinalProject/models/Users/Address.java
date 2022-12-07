@@ -12,9 +12,9 @@ public class Address {
     }
 
     public Address(String address, Integer postalCode, String country) {
-        this.address = address;
-        this.postalCode = postalCode;
-        this.country = country;
+        setAddress(address);
+        setPostalCode(postalCode);
+        setCountry(country);
     }
 
     public String getAddress() {

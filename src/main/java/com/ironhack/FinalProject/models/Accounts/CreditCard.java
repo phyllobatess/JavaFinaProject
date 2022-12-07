@@ -2,13 +2,22 @@ package com.ironhack.FinalProject.models.Accounts;
 
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 
 @Entity
 public class CreditCard extends Account {
-    private BigDecimal creditLimit;
-    private double interestRate;
+
+    @NotNull
+    @DecimalMax(value = "1000", inclusive = true)
+    private BigDecimal creditLimit=new BigDecimal("100");
+
+    @NotNull
+    @DecimalMin(value="0.1",inclusive = true)
+    private double interestRate=0.2;
 
     public CreditCard() {
     }
