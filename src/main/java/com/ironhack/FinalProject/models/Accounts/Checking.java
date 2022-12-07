@@ -20,7 +20,7 @@ public class Checking extends Account {
     private BigDecimal monthlyMaintenanceFee=new BigDecimal("12");
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDate creationDate=LocalDate.now();
 
     @NotNull
     @Enumerated(EnumType.STRING)

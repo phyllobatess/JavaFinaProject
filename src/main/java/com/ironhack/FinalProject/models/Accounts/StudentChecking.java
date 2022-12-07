@@ -31,6 +31,10 @@ public class StudentChecking extends Account {
     public StudentChecking() {
     }
 
+    //Este constructor lo creo segun el adminsService addCheckingmethod
+    public StudentChecking(AccountHolders primaryOwner, AccountHolders secondaryOwner) {
+    }
+
     public String getSecretKey() {
         return secretKey;
     }

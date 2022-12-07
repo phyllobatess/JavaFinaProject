@@ -1,6 +1,7 @@
 package com.ironhack.FinalProject.models.Users;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -10,8 +11,10 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String userName;
 
+    @NotEmpty
     private String password;
 
     private String name;

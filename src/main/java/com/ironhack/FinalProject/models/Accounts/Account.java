@@ -31,8 +31,6 @@ public  abstract class Account {
 
 
 
-
-
     //Constructor vacío
     public Account(){}
 
