@@ -7,10 +7,7 @@ import com.ironhack.FinalProject.models.Accounts.StudentChecking;
 import com.ironhack.FinalProject.models.DTO.AccountDto;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import com.ironhack.FinalProject.models.Users.Admins;
-import com.ironhack.FinalProject.repositories.AccountsRepositories.CheckingRepository;
-import com.ironhack.FinalProject.repositories.AccountsRepositories.CreditCardRepository;
-import com.ironhack.FinalProject.repositories.AccountsRepositories.SavingsRepository;
-import com.ironhack.FinalProject.repositories.AccountsRepositories.StudentCheckingRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.*;
 import com.ironhack.FinalProject.repositories.UserRepositories.AccountHoldersRepository;
 import com.ironhack.FinalProject.repositories.UserRepositories.AdminsRepository;
 import com.ironhack.FinalProject.repositories.UserRepositories.ThirdPartyRepository;
@@ -44,17 +41,20 @@ public class AdminsService implements AdminsControllerInt   {
     @Autowired
     ThirdPartyRepository thirdPartyRepository;
 
+    @Autowired
+    AccountRepository accountRepository;
+
 
     public Admins addAdmin(Admins admin) {
         return adminsRepository.save(admin);
     }
 
     public Account addChecking(AccountDto accountDto) {
-        AccountHolders primaryOwner = accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Object Account Holder does not exist"));
+        AccountHolders primaryOwner = accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Holder does not exist"));
 
-        LocalDate birthdate = primaryOwner.getDateOfBirth();
+        LocalDate DOB = primaryOwner.getDateOfBirth();
         LocalDate now = LocalDate.now();
-        Period period = birthdate.until(now);
+        Period period = DOB.until(now);
         int age = period.getYears();
 
         AccountHolders secondaryOwner = null;
@@ -63,13 +63,15 @@ public class AdminsService implements AdminsControllerInt   {
         }
         Account newAccount;
         if (age <= 24) {
-            newAccount = studentCheckingRepository.save(new StudentChecking(primaryOwner, secondaryOwner));
+            newAccount = studentCheckingRepository.save(new StudentChecking(accountDto.getBalance(),primaryOwner, secondaryOwner,accountDto.getSecretKey()));
         } else {
-            newAccount = studentCheckingRepository.save(new StudentChecking(primaryOwner, secondaryOwner));
+            newAccount = checkingRepository.save(new Checking(accountDto.getBalance(),primaryOwner, secondaryOwner,accountDto.getSecretKey()));
         }
         return newAccount;
     }
 
 
-
+    public Account getAccount(Long id) {
+        return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DateBase"));
+    }
 }

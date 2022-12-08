@@ -3,12 +3,15 @@ package com.ironhack.FinalProject.models.DTO;
 import java.math.BigDecimal;
 
 public class AccountDto {
+    private BigDecimal balance;
     private Long primaryOwnerId;
     private Long secondaryOwnerId;
     private BigDecimal minimumBalance;
     private BigDecimal monthlyMaintenanceFee;
     private Long creditLimit;
     private double interestRate;
+
+    private String secretKey;
 
     public AccountDto() {
     }
@@ -68,5 +71,21 @@ public class AccountDto {
 
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }

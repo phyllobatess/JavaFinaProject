@@ -24,24 +24,28 @@ public class Savings extends Account {
     private double interestRate=0.0025;
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDate creationDate=LocalDate.now();
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Status savingsAccountStatus;
+    private Status savingsAccountStatus=Status.ACTIVE;
 
     final BigDecimal minBal=new BigDecimal("100");
     final BigDecimal maxBal=new BigDecimal("1000");
+
+
+
+
+
+    //   C  O  N  S  T  R  U  C  T  O  R  E  S
 
 
     public Savings() {
     }
 
     //Constructor que no pida el InterestRate (lo pone por defecto a 0.0025) y Sí pide Minimumbalance:
-    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance, LocalDate creationDate, Status savingsAccountStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey, BigDecimal minimumBalance) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.savingsAccountStatus = savingsAccountStatus;
 
         interestRate = 0.0025;
         setMinimumBalance(minimumBalance);
@@ -49,39 +53,38 @@ public class Savings extends Account {
 
 
     //Constructor que no pide el InterestRate y no pide el minimumbalance, se lo ponemos por defecto:
-    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, LocalDate creationDate, Status savingsAccountStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.savingsAccountStatus = savingsAccountStatus;
 
         interestRate = 0.0025;
         minimumBalance=new BigDecimal("1000");
     }
 
     //Constructor que SI pide InterestRate  y SI pide minimumbalace.
-    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance, double interestRate, LocalDate creationDate, Status savingsAccountStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey, BigDecimal minimumBalance, double interestRate) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.savingsAccountStatus = savingsAccountStatus;
 
         setInterestRate(interestRate);
         setMinimumBalance(minimumBalance);
     }
 
     //Constructor que SI pide Interest rate y NO pide minimumbalance:
-    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, double interestRate, LocalDate creationDate, Status savingsAccountStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Savings(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey, double interestRate) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.savingsAccountStatus = savingsAccountStatus;
-
 
         setInterestRate(interestRate);
         minimumBalance=new BigDecimal("1000");
 
     }
+
+
+
+    //  G  E  T  T  E  R  S     &     S E T T E R S :
+
+
 
     public String getSecretKey() {
         return secretKey;

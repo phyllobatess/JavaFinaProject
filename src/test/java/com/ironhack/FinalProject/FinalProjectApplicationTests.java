@@ -73,23 +73,24 @@ class CreateObjectsTests {
 		accountHoldersRepository.save(accountHolders1);
 		accountHoldersRepository.save(accountHolders2);
 
-		checking1=new Checking(new BigDecimal(232),accountHolders1,accountHolders2,new BigDecimal(2.03),"XXYY",new BigDecimal(23),new BigDecimal(232),LocalDate.now(), Status.ACTIVE);
-		checking2=new Checking(new BigDecimal(232),accountHolders2,accountHolders1,new BigDecimal(2.443),"YYXX",new BigDecimal(23),new BigDecimal(232),LocalDate.now(), Status.FROZEN);
+		checking1=new Checking(new BigDecimal("0.5"),accountHolders1,accountHolders2,"sd");
+		checking2=new Checking(new BigDecimal("0.2"),accountHolders2,accountHolders1,"fg");
 		checkingRepository.save(checking1);
 		checkingRepository.save(checking2);
 
-		studentChecking1=new StudentChecking(new BigDecimal(12.11),accountHolders1,accountHolders2,new BigDecimal(12.2),"XYY",LocalDate.now(),Status.ACTIVE);
-		studentChecking2=new StudentChecking(new BigDecimal(12.11),accountHolders2,accountHolders1,new BigDecimal(12.2),"XYY",LocalDate.now(),Status.ACTIVE);
+		studentChecking1=new StudentChecking(new BigDecimal(12.11),accountHolders1,accountHolders2,"XYY");
+		studentChecking2=new StudentChecking(new BigDecimal(1.1),accountHolders2,accountHolders1,"fff");
 		studentCheckingRepository.save(studentChecking1);
 		studentCheckingRepository.save(studentChecking2);
 
-		savings1=new Savings(new BigDecimal(2),accountHolders1,accountHolders2,new BigDecimal(43),"ss",0.4,LocalDate.now(),Status.FROZEN);
-		savings2=new Savings(new BigDecimal(2),accountHolders2,accountHolders1,new BigDecimal(44),"fffg",0.1,LocalDate.now(),Status.ACTIVE);
+		savings1=new Savings(new BigDecimal(2),accountHolders1,accountHolders2,"SS",2.2);
+		savings2=new Savings(new BigDecimal(2),accountHolders2,accountHolders2,"SS",2.2);
 		savingsRepository.save(savings1);
 		savingsRepository.save(savings2);
 
-		creditcard1=new CreditCard(new BigDecimal(23.2),accountHolders1,accountHolders2,new BigDecimal(0.4),new BigDecimal(0.5),0.4);
-		creditcard2=new CreditCard(new BigDecimal(45.2),accountHolders2,accountHolders1,new BigDecimal(0.2),new BigDecimal(0.5),0.4);
+		creditcard1=new CreditCard(new BigDecimal(23.2),accountHolders1,accountHolders2,new BigDecimal(0.5),0.4);
+		creditcard2=new CreditCard(new BigDecimal(1.2),accountHolders2,accountHolders1,new BigDecimal(0.5),0.4);
+
 		creditCardRepository.save(creditcard1);
 		creditCardRepository.save(creditcard2);
 
@@ -106,7 +107,7 @@ class CreateObjectsTests {
 
 	}
 
-	@AfterEach
+	/*@AfterEach
 	void tearDown(){
 
 		checkingRepository.deleteAll();
@@ -116,7 +117,7 @@ class CreateObjectsTests {
 		studentCheckingRepository.deleteAll();
 		adminsRepository.deleteAll();
 		thirdPartyRepository.deleteAll();
-	}
+	}*/
 
 	@Test
 	void shouldCreateCheckingAccount_OK(){
@@ -156,9 +157,9 @@ class CreateObjectsTests {
 	}
 
 	@Test void shouldLimitInterestRate(){
-		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,new BigDecimal(2),"AA",0.51,LocalDate.now(),Status.ACTIVE);
+		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,"sss",-0.3);
 		Assertions.assertEquals(0.0025,savings1.getInterestRate());
-		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,new BigDecimal(2),"AA",-0.2,LocalDate.now(),Status.ACTIVE);
+		savings1=new Savings(new BigDecimal("2"),accountHolders1,accountHolders2,"sss",1.2);
 		Assertions.assertEquals(0.0025,savings1.getInterestRate());
 
 	}

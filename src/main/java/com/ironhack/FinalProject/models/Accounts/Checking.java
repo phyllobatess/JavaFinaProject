@@ -14,29 +14,29 @@ import java.util.Optional;
 public class Checking extends Account {
     private String secretKey;
     @NotNull
-    private BigDecimal minimumBalance=new BigDecimal("250");
+    private final BigDecimal minimumBalance=new BigDecimal("250");
 
     @NotNull
-    private BigDecimal monthlyMaintenanceFee=new BigDecimal("12");
+    private final BigDecimal monthlyMaintenanceFee=new BigDecimal("12");
 
     @NotNull
     private LocalDate creationDate=LocalDate.now();
 
+    //Se inicializa con el estado por defecto ACTIVO:
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Status checkingAccountStatus;
+    private Status checkingAccountStatus=Status.ACTIVE;
 
 
     public Checking() {
     }
 
-    public Checking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, LocalDate creationDate, Status checkingAccountStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Checking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.creationDate = creationDate;
-        this.checkingAccountStatus = checkingAccountStatus;
+    }
+
+    public Checking(AccountHolders primaryOwner, AccountHolders secondaryOwner) {
     }
 
     public String getSecretKey() {
@@ -51,17 +51,13 @@ public class Checking extends Account {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(BigDecimal minimumBalance) {
-        this.minimumBalance = minimumBalance;
-    }
+
 
     public BigDecimal getMonthlyMaintenanceFee() {
         return monthlyMaintenanceFee;
     }
 
-    public void setMonthlyMaintenanceFee(BigDecimal monthlyMaintenanceFee) {
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-    }
+
 
     public LocalDate getCreationDate() {
         return creationDate;

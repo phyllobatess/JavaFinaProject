@@ -25,28 +25,28 @@ public class AdminsController {
 
 //La cuenta tipo ADMIN es la que nos permite crear cuentas de tipo CHECKING or CREDIT CARD no STUDENT.
 
-    //Ruta que nos guarda un nuevo ADMINS:
+    //Ruta que nos añadir un nuevo ADMINS:
     @PostMapping("/add-admin")
     @ResponseStatus(HttpStatus.CREATED)
     public Admins addNewAdmin(@RequestBody Admins admin){
         return adminsService.addAdmin(admin);
     }
 
-    //Ruta que nos guarda un nuevo AccountHolder:
+    //Ruta que nos añade un nuevo AccountHolder:
     @PostMapping("/add-account-holders")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolders addNewAccountHolders(@RequestBody AccountHolders accountholders){
         return accountHoldersService.addAccountHolder(accountholders);
     }
 
-    //Ruta que nos guarda un nuevo ThirdParty:
+    //Ruta que nos añade un nuevo ThirdParty:
     @PostMapping("/add-third-party")
     @ResponseStatus(HttpStatus.CREATED)
     public ThirdParty addNewThirdParty(@RequestBody ThirdParty thirdParty){
         return thirdPartyService.addAThirdParty(thirdParty);
     }
 
-    //_________________Falta Add-checking-acc, savings y credit card________________
+    //_________________Falta  savings y credit card________________
 
 
     //Si el primaryOwner es >24--> Checking account, si es <24 --> Student
@@ -58,15 +58,13 @@ public class AdminsController {
     }
 
 
+
+
     @GetMapping("/client-account/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Account findAccountById(@PathVariable Long id) {
         return adminsService.getAccount(id);
     }
-
 // Falta el PATCH
-
-
-
 
 }

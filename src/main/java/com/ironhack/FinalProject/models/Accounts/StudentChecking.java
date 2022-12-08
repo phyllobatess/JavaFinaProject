@@ -15,24 +15,18 @@ public class StudentChecking extends Account {
     private String secretKey;
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDate creationDate=LocalDate.now();
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Status studentCheckingStatus;
+    private Status studentCheckingStatus=Status.ACTIVE;
 
-    public StudentChecking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee, String secretKey, LocalDate creationDate, Status studentCheckingStatus) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public StudentChecking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.studentCheckingStatus = studentCheckingStatus;
     }
 
     public StudentChecking() {
-    }
-
-    //Este constructor lo creo segun el adminsService addCheckingmethod
-    public StudentChecking(AccountHolders primaryOwner, AccountHolders secondaryOwner) {
     }
 
     public String getSecretKey() {

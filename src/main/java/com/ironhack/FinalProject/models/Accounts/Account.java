@@ -27,7 +27,7 @@ public  abstract class Account {
     @JoinColumn(name="secondaryOwner_id")
     private AccountHolders secondaryOwner;
 
-    private BigDecimal penaltyFee=new BigDecimal("40");
+    private final BigDecimal penaltyFee=new BigDecimal("40");
 
 
 
@@ -35,18 +35,18 @@ public  abstract class Account {
     public Account(){}
 
     //Constructor que no pida el secondary Owner
-    public Account(BigDecimal balance, AccountHolders primaryOwner, BigDecimal penaltyFee) {
+    public Account(BigDecimal balance, AccountHolders primaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
-        this.penaltyFee = penaltyFee;
+
     }
 
     //Constructor que pida el Secondary Owner:
-    public Account(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, BigDecimal penaltyFee) {
+    public Account(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
-        this.penaltyFee = penaltyFee;
+
     }
 
     public Long getId() {
@@ -85,9 +85,6 @@ public  abstract class Account {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(BigDecimal penaltyFee) {
-        this.penaltyFee = penaltyFee;
-    }
 }
 
 
