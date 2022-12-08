@@ -41,10 +41,9 @@ public class AccountHolders extends User {
 
     public AccountHolders(String userName, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
         super(userName, password, name);
-        this.dateOfBirth = dateOfBirth;
-        this.primaryAddress = primaryAddress;
-        this.mailingAddress = mailingAddress;
-
+        setDateOfBirth(dateOfBirth);
+        setPrimaryAddress(primaryAddress);
+        setMailingAddress(mailingAddress);
     }
 
     public LocalDate getDateOfBirth() {

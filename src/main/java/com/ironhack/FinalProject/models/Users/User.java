@@ -23,9 +23,9 @@ public abstract class User {
     }
 
     public User(String userName, String password, String name) {
-        this.userName = userName;
-        this.password = password;
-        this.name = name;
+        setUserName(userName);
+        setPassword(password);
+        setName(name);
     }
 
     public Long getId() {

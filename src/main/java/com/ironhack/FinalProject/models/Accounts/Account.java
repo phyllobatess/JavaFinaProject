@@ -1,5 +1,7 @@
 package com.ironhack.FinalProject.models.Accounts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ironhack.FinalProject.models.Movements.Transaction;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +28,16 @@ public  abstract class Account {
     @ManyToOne
     @JoinColumn(name="secondaryOwner_id")
     private AccountHolders secondaryOwner;
-
     private final BigDecimal penaltyFee=new BigDecimal("40");
+
+
+    //     T R A N S A C T I O N   R E L A T I O N S
+    @JsonIgnore
+    @OneToMany(mappedBy = "destinyAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Transaction> sentTransference = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "originAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Transaction> receivedTransference = new ArrayList<>();
 
 
 
@@ -36,8 +46,8 @@ public  abstract class Account {
 
     //Constructor que no pida el secondary Owner
     public Account(BigDecimal balance, AccountHolders primaryOwner) {
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
+        setBalance(balance);
+        setPrimaryOwner(primaryOwner);
 
     }
 
@@ -85,6 +95,21 @@ public  abstract class Account {
         return penaltyFee;
     }
 
+    public List<Transaction> getSentTransference() {
+        return sentTransference;
+    }
+
+    public void setSentTransference(List<Transaction> sentTransference) {
+        this.sentTransference = sentTransference;
+    }
+
+    public List<Transaction> getReceivedTransference() {
+        return receivedTransference;
+    }
+
+    public void setReceivedTransference(List<Transaction> receivedTransference) {
+        this.receivedTransference = receivedTransference;
+    }
 }
 
 

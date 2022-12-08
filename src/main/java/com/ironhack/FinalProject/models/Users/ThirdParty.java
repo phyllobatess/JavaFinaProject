@@ -9,7 +9,7 @@ public class ThirdParty extends User {
     public ThirdParty(){}
     public ThirdParty(String userName, String password, String name, String hashKey) {
         super(userName, password, name);
-        this.hashKey = hashKey;
+        setHashKey(hashKey);
     }
 
     public String getHashKey() {

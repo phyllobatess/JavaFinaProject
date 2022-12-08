@@ -1,8 +1,9 @@
 package com.ironhack.FinalProject.controllers;
 
+import com.ironhack.FinalProject.controllers.interfaces.AdminsControllerInt;
 import com.ironhack.FinalProject.models.Accounts.Account;
-import com.ironhack.FinalProject.models.Accounts.Checking;
-import com.ironhack.FinalProject.models.DTO.AccountDto;
+import com.ironhack.FinalProject.models.DTO.AccountDTO;
+import com.ironhack.FinalProject.models.DTO.BalanceDTO;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import com.ironhack.FinalProject.models.Users.Admins;
 import com.ironhack.FinalProject.models.Users.ThirdParty;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class AdminsController {
+public class AdminsController implements AdminsControllerInt {
 
     @Autowired
     AdminsService adminsService;
@@ -48,10 +49,10 @@ public class AdminsController {
 
 
 
-    //Si el primaryOwner es >24--> Checking account, si es <24 --> Student
+
     @PostMapping("/add-checking")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account addChecking(@RequestBody AccountDto accountDto)
+    public Account addChecking(@RequestBody AccountDTO accountDto)
     {
         return adminsService.addChecking(accountDto);
     }
@@ -59,25 +60,35 @@ public class AdminsController {
 
     @PostMapping("/add-savings")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account addSavings(@RequestBody AccountDto accountDto){
+    public Account addSavings(@RequestBody AccountDTO accountDto){
         return adminsService.addSavings(accountDto);
     }
 
     @PostMapping("/add-credit-card")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account addCreditCard(@RequestBody AccountDto accountDto)
+    public Account addCreditCard(@RequestBody AccountDTO accountDto)
     {
         return adminsService.addCreditCard(accountDto);
     }
 
 
-
-
-    @GetMapping("/client-account/{id}")
+    @GetMapping("/find-account/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Account findAccountById(@PathVariable Long id) {
         return adminsService.getAccount(id);
     }
-// Falta el PATCH
+
+    //No sé si esta bien:
+    @PatchMapping("/account/update-balance")
+    @ResponseStatus(HttpStatus.OK)
+    public Account updateAccountBalanceById(@RequestBody BalanceDTO balanceDto){
+        return adminsService.updateAccountBalance(balanceDto);
+    }
+
+    @DeleteMapping("/delete-account/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAccountById(@PathVariable Long id){
+        adminsService.deleteById(id);
+    }
 
 }

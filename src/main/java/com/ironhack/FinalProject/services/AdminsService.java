@@ -1,8 +1,8 @@
 package com.ironhack.FinalProject.services;
 
-import com.ironhack.FinalProject.controllers.interfaces.AdminsControllerInt;
 import com.ironhack.FinalProject.models.Accounts.*;
-import com.ironhack.FinalProject.models.DTO.AccountDto;
+import com.ironhack.FinalProject.models.DTO.AccountDTO;
+import com.ironhack.FinalProject.models.DTO.BalanceDTO;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import com.ironhack.FinalProject.models.Users.Admins;
 import com.ironhack.FinalProject.repositories.AccountsRepositories.*;
@@ -20,7 +20,7 @@ import java.time.Period;
 
 
 @Service
-public class AdminsService implements AdminsControllerInt   {
+public class AdminsService    {
 
     @Autowired
     CheckingRepository checkingRepository;
@@ -48,7 +48,7 @@ public class AdminsService implements AdminsControllerInt   {
         return adminsRepository.save(admin);
     }
 
-    public Account addChecking(AccountDto accountDto) {
+    public Account addChecking(AccountDTO accountDto) {
         AccountHolders primaryOwner = accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Holder does not exist"));
 
         LocalDate DOB = primaryOwner.getDateOfBirth();
@@ -75,7 +75,7 @@ public class AdminsService implements AdminsControllerInt   {
 
 
 
-    public Account addSavings(AccountDto accountDto)
+    public Account addSavings(AccountDTO accountDto)
     {
         AccountHolders primaryOwner=accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Account holder is not found in our DB"));
 
@@ -102,7 +102,7 @@ public class AdminsService implements AdminsControllerInt   {
 
     }
 
-    public Account addCreditCard(AccountDto accountDto) {
+    public Account addCreditCard(AccountDTO accountDto) {
         AccountHolders primaryOwner= accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Account is not found"));
 
         AccountHolders secondaryOwner = null;
@@ -129,6 +129,19 @@ public class AdminsService implements AdminsControllerInt   {
     public Account getAccount(Long id) {
         return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DataBase"));
     }
+
+
+    public Account updateAccountBalance(BalanceDTO balanceDto) {
+        Account account = accountRepository.findById(balanceDto.getAccountId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        BigDecimal newBalance = balanceDto.getNewBalance();
+        account.setBalance(newBalance);
+        return accountRepository.save(account);
+    }
+
+    public void deleteById(Long id) {
+        accountRepository.delete(accountRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found")));
+    }
+
 
 
 

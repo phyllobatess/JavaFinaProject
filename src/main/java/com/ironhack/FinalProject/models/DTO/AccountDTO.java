@@ -2,7 +2,7 @@ package com.ironhack.FinalProject.models.DTO;
 
 import java.math.BigDecimal;
 
-public class AccountDto {
+public class AccountDTO {
     private BigDecimal balance;
     private Long primaryOwnerId;
     private Long secondaryOwnerId;
@@ -13,10 +13,10 @@ public class AccountDto {
 
     private String secretKey;
 
-    public AccountDto() {
+    public AccountDTO() {
     }
 
-    public AccountDto(Long primaryOwnerId, Long secondaryOwnerId, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, BigDecimal creditLimit, double interestRate) {
+    public AccountDTO(Long primaryOwnerId, Long secondaryOwnerId, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, BigDecimal creditLimit, double interestRate) {
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
         this.minimumBalance = minimumBalance;

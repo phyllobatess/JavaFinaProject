@@ -33,7 +33,7 @@ public class Checking extends Account {
 
     public Checking(BigDecimal balance, AccountHolders primaryOwner, AccountHolders secondaryOwner, String secretKey) {
         super(balance, primaryOwner, secondaryOwner);
-        this.secretKey = secretKey;
+        setSecretKey(secretKey);
     }
 
     public Checking(AccountHolders primaryOwner, AccountHolders secondaryOwner) {
