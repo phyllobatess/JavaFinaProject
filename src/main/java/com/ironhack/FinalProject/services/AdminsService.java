@@ -1,9 +1,7 @@
 package com.ironhack.FinalProject.services;
 
 import com.ironhack.FinalProject.controllers.interfaces.AdminsControllerInt;
-import com.ironhack.FinalProject.models.Accounts.Account;
-import com.ironhack.FinalProject.models.Accounts.Checking;
-import com.ironhack.FinalProject.models.Accounts.StudentChecking;
+import com.ironhack.FinalProject.models.Accounts.*;
 import com.ironhack.FinalProject.models.DTO.AccountDto;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import com.ironhack.FinalProject.models.Users.Admins;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -71,7 +70,66 @@ public class AdminsService implements AdminsControllerInt   {
     }
 
 
-    public Account getAccount(Long id) {
-        return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DateBase"));
+
+
+
+
+
+    public Account addSavings(AccountDto accountDto)
+    {
+        AccountHolders primaryOwner=accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Account holder is not found in our DB"));
+
+        AccountHolders secondaryOwner=null;
+        if(accountDto.getSecondaryOwnerId()!=null)
+        {
+            secondaryOwner=accountHoldersRepository.findById(accountDto.getSecondaryOwnerId()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Not found"));
+        }
+        Savings savingsAccount;
+        if(accountDto.getMinimumBalance() !=null && accountDto.getInterestRate() !=0){
+            savingsAccount=new Savings(accountDto.getBalance(),primaryOwner,secondaryOwner,accountDto.getSecretKey(),accountDto.getMinimumBalance(),accountDto.getInterestRate());
+        }
+        else if(accountDto.getMinimumBalance()!=null){
+            savingsAccount=new Savings(accountDto.getBalance(),primaryOwner,secondaryOwner,accountDto.getSecretKey(),new BigDecimal("0.0025"));
+        }
+        else if(accountDto.getInterestRate()!=0){
+            savingsAccount=new Savings(accountDto.getBalance(),primaryOwner,secondaryOwner,accountDto.getSecretKey(),new BigDecimal("1000"),accountDto.getInterestRate());
+        }
+        else
+        {
+            savingsAccount=new Savings(accountDto.getBalance(),primaryOwner,secondaryOwner,accountDto.getSecretKey());
+        }
+        return savingsRepository.save(savingsAccount);
+
     }
+
+    public Account addCreditCard(AccountDto accountDto) {
+        AccountHolders primaryOwner= accountHoldersRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Account is not found"));
+
+        AccountHolders secondaryOwner = null;
+        if (accountDto.getSecondaryOwnerId() != null) {
+            secondaryOwner = accountHoldersRepository.findById(accountDto.getSecondaryOwnerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account holder not found"));
+        }
+
+
+        CreditCard creditCard;
+        if (accountDto.getCreditLimit() != null && accountDto.getInterestRate() != 0) {
+            creditCard = new CreditCard(accountDto.getBalance(),primaryOwner, secondaryOwner, accountDto.getCreditLimit(), accountDto.getInterestRate());
+        } else if (accountDto.getCreditLimit() != null) {
+            creditCard = new CreditCard(accountDto.getBalance(),primaryOwner, secondaryOwner, accountDto.getCreditLimit(), 0.2);
+        } else if (accountDto.getInterestRate() != 0) {
+            creditCard = new CreditCard(accountDto.getBalance(),primaryOwner, secondaryOwner, new BigDecimal(100), accountDto.getInterestRate());
+        } else {
+            creditCard = new CreditCard(accountDto.getBalance(),primaryOwner, secondaryOwner);
+        }
+        return creditCardRepository.save(creditCard);
+
+    }
+
+
+    public Account getAccount(Long id) {
+        return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DataBase"));
+    }
+
+
+
 }

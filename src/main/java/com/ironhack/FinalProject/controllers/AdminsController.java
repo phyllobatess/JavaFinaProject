@@ -46,7 +46,6 @@ public class AdminsController {
         return thirdPartyService.addAThirdParty(thirdParty);
     }
 
-    //_________________Falta  savings y credit card________________
 
 
     //Si el primaryOwner es >24--> Checking account, si es <24 --> Student
@@ -55,6 +54,20 @@ public class AdminsController {
     public Account addChecking(@RequestBody AccountDto accountDto)
     {
         return adminsService.addChecking(accountDto);
+    }
+
+
+    @PostMapping("/add-savings")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account addSavings(@RequestBody AccountDto accountDto){
+        return adminsService.addSavings(accountDto);
+    }
+
+    @PostMapping("/add-credit-card")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account addCreditCard(@RequestBody AccountDto accountDto)
+    {
+        return adminsService.addCreditCard(accountDto);
     }
 
 

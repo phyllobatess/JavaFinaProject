@@ -8,7 +8,7 @@ public class AccountDto {
     private Long secondaryOwnerId;
     private BigDecimal minimumBalance;
     private BigDecimal monthlyMaintenanceFee;
-    private Long creditLimit;
+    private BigDecimal creditLimit;
     private double interestRate;
 
     private String secretKey;
@@ -16,7 +16,7 @@ public class AccountDto {
     public AccountDto() {
     }
 
-    public AccountDto(Long primaryOwnerId, Long secondaryOwnerId, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, Long creditLimit, double interestRate) {
+    public AccountDto(Long primaryOwnerId, Long secondaryOwnerId, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, BigDecimal creditLimit, double interestRate) {
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
         this.minimumBalance = minimumBalance;
@@ -57,11 +57,11 @@ public class AccountDto {
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;
     }
 
-    public Long getCreditLimit() {
+    public BigDecimal getCreditLimit() {
         return creditLimit;
     }
 
-    public void setCreditLimit(Long creditLimit) {
+    public void setCreditLimit(BigDecimal creditLimit) {
         this.creditLimit = creditLimit;
     }
 
