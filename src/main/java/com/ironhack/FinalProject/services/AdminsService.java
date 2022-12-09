@@ -125,15 +125,35 @@ public class AdminsService    {
 
     }
 
+    //Falta logica metodo APPLYINTEREST
 
     public Account getAccount(Long id) {
         return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DataBase"));
     }
+//Los intereses sólo se aplican en Savings y en Credit Card:
+    public BigDecimal getAccountBalance(Long id){
+        Account account = accountRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        if(account instanceof  Savings){
+            savingsRepository.findById(id).get().applyInterests();
+        }
+        else if( account instanceof CreditCard ){
+            creditCardRepository.findById(id).get().applyInterests();
+        }
+
+        return account.getBalance();
+    }
 
 
-    public Account updateAccountBalance(BalanceDTO balanceDto) {
-        Account account = accountRepository.findById(balanceDto.getAccountId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
-        BigDecimal newBalance = balanceDto.getNewBalance();
+
+    public Account updateAccountBalance(BalanceDTO balanceDTO) {
+        Account account = accountRepository.findById(balanceDTO.getAccountId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        if(account instanceof Savings){
+            savingsRepository.findById(balanceDTO.getAccountId()).get().applyInterests();
+        }
+        else if( account instanceof CreditCard ){
+            creditCardRepository.findById(balanceDTO.getAccountId()).get().applyInterests();
+        }
+        BigDecimal newBalance = balanceDTO.getNewBalance();
         account.setBalance(newBalance);
         return accountRepository.save(account);
     }
@@ -141,7 +161,6 @@ public class AdminsService    {
     public void deleteById(Long id) {
         accountRepository.delete(accountRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found")));
     }
-
 
 
 

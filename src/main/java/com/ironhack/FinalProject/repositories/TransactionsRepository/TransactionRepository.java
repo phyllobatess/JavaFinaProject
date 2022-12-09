@@ -1,4 +1,4 @@
-package com.ironhack.FinalProject.repositories.transactions;
+package com.ironhack.FinalProject.repositories.TransactionsRepository;
 
 import com.ironhack.FinalProject.models.Movements.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;

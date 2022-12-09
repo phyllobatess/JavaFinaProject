@@ -38,7 +38,6 @@ public class Transaction {
     }
 
     public Transaction() {
-
     }
 
     public Long getId() {

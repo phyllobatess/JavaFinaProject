@@ -9,7 +9,9 @@ import jakarta.validation.constraints.DecimalMin;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 public class Savings extends Account {
@@ -28,6 +30,10 @@ public class Savings extends Account {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status savingsAccountStatus=Status.ACTIVE;
+
+    private LocalDate lastTimeFeeApplied;
+
+
 
     final BigDecimal minBal=new BigDecimal("100");
     final BigDecimal maxBal=new BigDecimal("1000");
@@ -135,5 +141,29 @@ public class Savings extends Account {
 
     public void setSavingsAccountStatus(Status savingsAccountStatus) {
         this.savingsAccountStatus = savingsAccountStatus;
+    }
+
+    public LocalDate getLastTimeFeeApplied() {
+        return lastTimeFeeApplied;
+    }
+
+    public void setLastTimeFeeApplied(LocalDate lastTimeFeeApplied) {
+        this.lastTimeFeeApplied = lastTimeFeeApplied;
+    }
+
+//Método que permite aplicar el fee en el caso de que haya pasada 1 año:
+    public void applyInterests() {
+        Period period;
+        if (lastTimeFeeApplied == null) {
+            period = Period.between(creationDate, LocalDate.now());
+        }
+        else {
+            period = Period.between(lastTimeFeeApplied, LocalDate.now());
+        }
+        if (period.getYears() == 1) {
+            BigDecimal profit = super.getBalance().multiply(BigDecimal.valueOf(interestRate)); //Utilizo valueOf porque interestTate es un double
+            super.setBalance(super.getBalance().add(profit).setScale(2, RoundingMode.HALF_DOWN));
+            lastTimeFeeApplied = LocalDate.now();
+        }
     }
 }

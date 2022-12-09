@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 public class AdminsController implements AdminsControllerInt {
 
@@ -39,6 +41,8 @@ public class AdminsController implements AdminsControllerInt {
     public AccountHolders addNewAccountHolders(@RequestBody AccountHolders accountholders){
         return accountHoldersService.addAccountHolder(accountholders);
     }
+
+
 
     //Ruta que nos añade un nuevo ThirdParty:
     @PostMapping("/add-third-party")
@@ -78,7 +82,13 @@ public class AdminsController implements AdminsControllerInt {
         return adminsService.getAccount(id);
     }
 
-    //No sé si esta bien:
+    @GetMapping("/client-account/balance/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BigDecimal findAccountBalance(@PathVariable Long id) {
+        return adminsService.getAccountBalance(id);
+    }
+
+
     @PatchMapping("/account/update-balance")
     @ResponseStatus(HttpStatus.OK)
     public Account updateAccountBalanceById(@RequestBody BalanceDTO balanceDto){
