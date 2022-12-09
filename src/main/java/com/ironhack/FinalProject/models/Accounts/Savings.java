@@ -151,7 +151,7 @@ public class Savings extends Account {
         this.lastTimeFeeApplied = lastTimeFeeApplied;
     }
 
-//Método que permite aplicar el fee en el caso de que haya pasada 1 año:
+//Método que permite aplicar el fee en el caso de que haya pasado 1 año:
     public void applyInterests() {
         Period period;
         if (lastTimeFeeApplied == null) {

@@ -125,7 +125,6 @@ public class AdminsService    {
 
     }
 
-    //Falta logica metodo APPLYINTEREST
 
     public Account getAccount(Long id) {
         return accountRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The account does not exist in our DataBase"));
@@ -161,7 +160,5 @@ public class AdminsService    {
     public void deleteById(Long id) {
         accountRepository.delete(accountRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found")));
     }
-
-
 
 }

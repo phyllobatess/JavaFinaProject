@@ -2,18 +2,22 @@ package com.ironhack.FinalProject.services;
 
 import com.ironhack.FinalProject.models.Accounts.Account;
 import com.ironhack.FinalProject.models.Accounts.Checking;
+import com.ironhack.FinalProject.models.Accounts.CreditCard;
 import com.ironhack.FinalProject.models.Accounts.Savings;
 import com.ironhack.FinalProject.models.DTO.TransactionDTO;
 import com.ironhack.FinalProject.models.Movements.Transaction;
 import com.ironhack.FinalProject.models.Users.AccountHolders;
 import com.ironhack.FinalProject.repositories.AccountsRepositories.AccountRepository;
+import com.ironhack.FinalProject.repositories.AccountsRepositories.CreditCardRepository;
 import com.ironhack.FinalProject.repositories.AccountsRepositories.SavingsRepository;
 import com.ironhack.FinalProject.repositories.UserRepositories.AccountHoldersRepository;
-import com.ironhack.FinalProject.repositories.TransactionsRepository.TransactionRepository;
+import com.ironhack.FinalProject.repositories.MovementsRepository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.math.BigDecimal;
 
 @Service
 public class AccountHoldersService {
@@ -29,17 +33,68 @@ public class AccountHoldersService {
     @Autowired
     SavingsRepository savingsRepository;
 
+    @Autowired
+    CreditCardRepository creditCardRepository;
+
 
     public AccountHolders addAccountHolder(AccountHolders accountHolder) {
         return accountHolderRepository.save(accountHolder);
     }
 
-    public Account getAccount(Long id){
-        if(accountHolderRepository.findPrimaryOwnerAccountById(id).isPresent()){
-            return accountHolderRepository.findPrimaryOwnerAccountById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+    public Account getAccount(Long accountId, Long ownerId) {
+        Account account;
+
+        if (accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).isPresent()) {
+            account = accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).get();
+
+            if (account instanceof Savings) {
+                savingsRepository.findById(accountId).get().applyInterests();
+            } else if (account instanceof CreditCard) {
+                creditCardRepository.findById(accountId).get().applyInterests();
+            }
+            return accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).get();
         }
-        else
-            return accountHolderRepository.findSecondaryOwnerAccountById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+
+        else if (accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).isPresent()) {
+            account = accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).get();
+
+            if (account instanceof Savings) {
+                savingsRepository.findById(accountId).get().applyInterests();
+            } else if (account instanceof CreditCard) {
+                creditCardRepository.findById(accountId).get().applyInterests();
+            }
+            return accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account does not exist");
+        }
+    }
+
+
+    public BigDecimal getAccountBalance(Long accountId, Long ownerId) {
+        Account account;
+
+        if (accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).isPresent()) {
+            account = accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).get();
+            //Check interests in case its a savings or credit card account
+            if (account instanceof Savings) {
+                savingsRepository.findById(accountId).get().applyInterests();
+            } else if (account instanceof CreditCard) {
+                creditCardRepository.findById(accountId).get().applyInterests();
+            }
+            return accountRepository.findByIdAndPrimaryOwnerId(accountId, ownerId).get().getBalance();
+        }
+        else if (accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).isPresent()) {
+            account = accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).get();
+
+            if (account instanceof Savings) {
+                savingsRepository.findById(accountId).get().applyInterests();
+            } else if (account instanceof CreditCard) {
+                creditCardRepository.findById(accountId).get().applyInterests();
+            }
+            return accountRepository.findByIdAndSecondaryOwnerId(accountId, ownerId).get().getBalance();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account does not exist");
+        }
     }
 
     public Transaction transfer(TransactionDTO transactionDTO){
@@ -73,4 +128,6 @@ public class AccountHoldersService {
 
         return transactionRepository.save(transaction);
     }
+
+
 }
